@@ -12,12 +12,12 @@ public class ATest {
 
     @Test
     public void test02() {
-        int i = -230;
-        int i1 = 100;
-        int i2 = 100;
-        int i3 = -230;
-
-        System.out.println(i == i3);
-        System.out.println(i1 == i2);
+        //基本类型缓存
+        Integer i = -123;
+        Integer i1 = -123;
+        Integer i2 = 330;
+        Integer i4 = 330;
+        System.out.println(i == i1);
+        System.out.println(i2 == i4);
     }
 }
