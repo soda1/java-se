@@ -1,5 +1,7 @@
 package com.soda.thread;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -18,6 +20,7 @@ public class CallableTest {
         Thread thread = new Thread(task);
         thread.start();
         System.out.println(task.get());
+
     }
 }
 
