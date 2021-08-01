@@ -5,7 +5,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.*;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+/**
+ * 学习实现collector
+ * @author JoannaLi
+ * @param <T>
+ * @param <A>
+ * @param <R>
+ */
 public class CollectorTest<T,A,R>  implements Collector<T,A,R> {
 
     private Supplier<A> supplier;
@@ -48,17 +56,16 @@ public class CollectorTest<T,A,R>  implements Collector<T,A,R> {
     public static void main(String[] args) {
 
         CollectorTest<Student, List<Student>, List<Student>> collectorTest =
-                new CollectorTest<>(ArrayList::new, (students, student) -> students.add(student), (left, right) -> {
-            left.addAll(right);
-            return left;
-        });
+                new CollectorTest<>(ArrayList::new, List::add, (a1, a2) -> {
+                    a1.addAll(a2);
+                    return a1;
+                });
 
-        BiConsumer< List<Student>, Student> biConsumer = List::add;
-
-        List list = new ArrayList<Student>();
-        biConsumer.accept(list, new Student(17, "lisi"));
-        biConsumer.accept(list, new Student(17, "wangwu"));
-        System.out.println(list);
+        List<Student> list = new ArrayList<>();
+        list.add(new Student(17, "lisi"));
+        list.add(new Student(17, "wangwu"));
+        List<Student> collect = list.stream().collect(collectorTest);
+        System.out.println(collect);
     }
 
 
