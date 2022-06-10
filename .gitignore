@@ -1,5 +1,4 @@
 .idea/
 
-#target/
-31231/
-#*.class
+target/
+*.class
