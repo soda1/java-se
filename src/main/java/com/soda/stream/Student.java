@@ -1,5 +1,8 @@
 package com.soda.stream;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author soda
  * @date 2021/8/1
@@ -38,5 +41,17 @@ public class Student {
                 "age=" + age +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        System.out.println("start");
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 200; i++) {
+            list.add(String.valueOf(i));
+            new Thread(() -> {
+                list.remove(0);
+                System.out.println(Thread.currentThread().getName());
+            }, "Thread" + i).start();
+        }
     }
 }
