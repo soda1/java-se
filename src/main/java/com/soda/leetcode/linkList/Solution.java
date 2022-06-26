@@ -1,79 +1,36 @@
 package com.soda.leetcode.linkList;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 class Solution {
-    private int[] index;
-    private int[] temp;
-    private int[] tempIndex;
-    private int[] ans;
 
-    public List<Integer> countSmaller(int[] nums) {
-        this.index = new int[nums.length];
-        this.temp = new int[nums.length];
-        this.tempIndex = new int[nums.length];
-        this.ans = new int[nums.length];
-        for (int i = 0; i < nums.length; ++i) {
-            index[i] = i;
+    public boolean carPooling(int[][] trips, int capacity) {
+        List<int[]> list = new ArrayList<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int[] trip : trips) {
+            list.add(new int[] { trip[1], trip[0]});
+            list.add(new int[] { trip[2], -trip[0]});
         }
-        int l = 0, r = nums.length - 1;
-        mergeSort(nums, l, r);
-        List<Integer> list = new ArrayList<Integer>();
-        for (int num : ans) {
-            list.add(num);
-        }
-        return list;
-    }
-
-    public void mergeSort(int[] a, int l, int r) {
-        if (l >= r) {
-            return;
-        }
-        int mid = (l + r) >> 1;
-        mergeSort(a, l, mid);
-        mergeSort(a, mid + 1, r);
-        merge(a, l, mid, r);
-    }
-
-    public void merge(int[] a, int l, int mid, int r) {
-        int i = l, j = mid + 1, p = l;
-        while (i <= mid && j <= r) {
-            if (a[i] <= a[j]) {
-                temp[p] = a[i];
-                tempIndex[p] = index[i];
-                // ans[index[i]] += (j - mid - 1);
-                ++i;
-            } else {
-                temp[p] = a[j];
-                tempIndex[p] = index[j];
-                ++j;
+        Collections.sort(list, (a, b) -> {
+            if (a[0] == b[0]){
+                return a[1] - b[1];
             }
-            ++p;
+            return a[0] - b[0];
+        });
+        int sum = 0;
+        for (int[] ints : list) {
+            if (sum > capacity) {
+                return false;
+            }
+            sum += ints[1];
         }
-        while (i <= mid)  {
-            temp[p] = a[i];
-            tempIndex[p] = index[i];
-            ans[index[i]] += (j - mid - 1);
-            ++i;
-            ++p;
-        }
-        while (j <= r) {
-            temp[p] = a[j];
-            tempIndex[p] = index[j];
-            ++j;
-            ++p;
-        }
-        for (int k = l; k <= r; ++k) {
-            index[k] = tempIndex[k];
-            a[k] = temp[k];
-        }
+        return true;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        List<Integer> list = solution.countSmaller(new int[]{2, 5, 1, 2, 7, 3});
-        System.out.println(list.toString());
+        // List<List<Integer>> skyline = solution.getSkyline(new int[][]{{0,2,3}, {3, 7, 15}, {5, 12, 12}, {15, 20, 10}, {19, 24, 8}});
     }
+
+
 }
